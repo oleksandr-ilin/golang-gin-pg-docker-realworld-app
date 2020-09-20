@@ -1,14 +1,12 @@
 package main
 
 import (
-	"fmt"
-
 	"gopkg.in/gin-gonic/gin.v1"
 
 	"github.com/jinzhu/gorm"
-	"github.com/wangzitian0/golang-gin-starter-kit/articles"
-	"github.com/wangzitian0/golang-gin-starter-kit/common"
-	"github.com/wangzitian0/golang-gin-starter-kit/users"
+	"golang-gin-pg-docker-realworld-app/articles"
+	"golang-gin-pg-docker-realworld-app/common"
+	"golang-gin-pg-docker-realworld-app/users"
 )
 
 func Migrate(db *gorm.DB) {
@@ -28,7 +26,7 @@ func main() {
 
 	r := gin.Default()
 
-	v1 := r.Group("/api")
+	v1 := r.Group("/")
 	users.UsersRegister(v1.Group("/users"))
 	v1.Use(users.AuthMiddleware(false))
 	articles.ArticlesAnonymousRegister(v1.Group("/articles"))
@@ -47,27 +45,6 @@ func main() {
 			"message": "pong",
 		})
 	})
-
-	// test 1 to 1
-	tx1 := db.Begin()
-	userA := users.UserModel{
-		Username: "AAAAAAAAAAAAAAAA",
-		Email:    "aaaa@g.cn",
-		Bio:      "hehddeda",
-		Image:    nil,
-	}
-	tx1.Save(&userA)
-	tx1.Commit()
-	fmt.Println(userA)
-
-	//db.Save(&ArticleUserModel{
-	//    UserModelID:userA.ID,
-	//})
-	//var userAA ArticleUserModel
-	//db.Where(&ArticleUserModel{
-	//    UserModelID:userA.ID,
-	//}).First(&userAA)
-	//fmt.Println(userAA)
 
 	r.Run() // listen and serve on 0.0.0.0:8080
 }

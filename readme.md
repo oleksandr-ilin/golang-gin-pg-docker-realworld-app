@@ -8,21 +8,26 @@
 > ### Golang/Gin codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 This codebase was created to demonstrate a fully fledged fullstack application built with **Golang/Gin** including CRUD operations, authentication, routing, pagination, and more.
+This is PostgreSQL version with Docker support.
 
 # How it works
 
 ```
 .
-├── gorm.db
 ├── hello.go
 ├── common
 │   ├── utils.go        //small tools function
 │   └── database.go     //DB connect manager
-└── users
+├── users
+│   ├── models.go       //data models define & DB operation
+│   ├── serializers.go  //response computing & format
+│   ├── routers.go      //business logic & router binding
+│   ├── middlewares.go  //put the before & after logic of handle request
+│   └── validators.go   //form/json checker
+└── articles
     ├── models.go       //data models define & DB operation
     ├── serializers.go  //response computing & format
     ├── routers.go      //business logic & router binding
-    ├── middlewares.go  //put the before & after logic of handle request
     └── validators.go   //form/json checker
 ```
 
@@ -34,15 +39,16 @@ https://golang.org/doc/install
 
 ## Environment Config
 
+If you will clone this project into the `/Users/username/goprojects/src`
 make sure your ~/.\*shrc have those varible:
 
 ```
 ➜  echo $GOPATH
-/Users/zitwang/test/
+/Users/username/goprojects/
 ➜  echo $GOROOT
 /usr/local/go/
 ➜  echo $PATH
-...:/usr/local/go/bin:/Users/zitwang/test//bin:/usr/local/go//bin
+...:/usr/local/go/bin:/Users/username/goprojects/:/bin:/usr/local/go//bin
 ```
 
 ## Install Fresh
@@ -70,10 +76,15 @@ go get -u golang.org/x/crypto/...
 ➜  go test -v ./... -cover
 ```
 
-## Todo
+## Docker
 
-- More elegance config
-- Test coverage (common & users 100%, article 0%)
-- ProtoBuf support
-- Code structure optimize (I think some place can use interface)
-- Continuous integration (done)
+To build docker image:
+
+```bash
+docker build -f Dockerfile -t go/real-world-app .
+```
+
+To run container:
+```bash
+`docker run -p 8080:8080 --add-host pg-host:192.168.0.107 -it image_name`
+```

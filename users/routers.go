@@ -2,7 +2,7 @@ package users
 
 import (
 	"errors"
-	"github.com/wangzitian0/golang-gin-starter-kit/common"
+	"golang-gin-pg-docker-realworld-app/common"
 	"gopkg.in/gin-gonic/gin.v1"
 	"net/http"
 )
@@ -15,6 +15,7 @@ func UsersRegister(router *gin.RouterGroup) {
 func UserRegister(router *gin.RouterGroup) {
 	router.GET("/", UserRetrieve)
 	router.PUT("/", UserUpdate)
+	router.DELETE("/:username", UserDelete)
 }
 
 func ProfileRegister(router *gin.RouterGroup) {
@@ -128,4 +129,14 @@ func UserUpdate(c *gin.Context) {
 	UpdateContextUserModel(c, myUserModel.ID)
 	serializer := UserSerializer{c}
 	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
+}
+
+func UserDelete(c *gin.Context) {
+	username := c.Param("username")
+	err := DeleteUserModel(&UserModel{Username: username})
+	if err != nil {
+		c.JSON(http.StatusNotFound, common.NewError("users", errors.New("Invalid username")))
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"user": "Delete success"})
 }

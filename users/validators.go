@@ -1,7 +1,7 @@
 package users
 
 import (
-	"github.com/wangzitian0/golang-gin-starter-kit/common"
+	"golang-gin-pg-docker-realworld-app/common"
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
@@ -11,7 +11,7 @@ import (
 // Then, you can just call model.save() after the data is ready in DataModel.
 type UserModelValidator struct {
 	User struct {
-		Username string `form:"username" json:"username" binding:"exists,alphanum,min=4,max=255"`
+		Username string `form:"username" json:"username" binding:"exists,ascii,min=4,max=255"`
 		Email    string `form:"email" json:"email" binding:"exists,email"`
 		Password string `form:"password" json:"password" binding:"exists,min=8,max=255"`
 		Bio      string `form:"bio" json:"bio" binding:"max=1024"`

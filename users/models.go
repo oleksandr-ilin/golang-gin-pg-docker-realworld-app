@@ -3,7 +3,7 @@ package users
 import (
 	"errors"
 	"github.com/jinzhu/gorm"
-	"github.com/wangzitian0/golang-gin-starter-kit/common"
+	"golang-gin-pg-docker-realworld-app/common"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -147,4 +147,10 @@ func (u UserModel) GetFollowings() []UserModel {
 	}
 	tx.Commit()
 	return followings
+}
+
+func DeleteUserModel(condition interface{}) error {
+	db := common.GetDB()
+	err := db.Where(condition).Delete(UserModel{}).Error
+	return err
 }

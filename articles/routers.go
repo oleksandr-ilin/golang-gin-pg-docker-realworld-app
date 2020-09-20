@@ -2,8 +2,8 @@ package articles
 
 import (
 	"errors"
-	"github.com/wangzitian0/golang-gin-starter-kit/common"
-	"github.com/wangzitian0/golang-gin-starter-kit/users"
+	"golang-gin-pg-docker-realworld-app/common"
+	"golang-gin-pg-docker-realworld-app/users"
 	"gopkg.in/gin-gonic/gin.v1"
 	"net/http"
 	"strconv"
