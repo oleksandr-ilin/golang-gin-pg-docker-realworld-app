@@ -10,7 +10,7 @@ ENV GOPATH /go
 ENV GOROOT /usr/local/go
 WORKDIR /go/src/golang-gin-pg-docker-realworld-app
 COPY . /go/src/golang-gin-pg-docker-realworld-app
-RUN go build test.go
+RUN go build hello.go
 
 # final stage
 FROM alpine
