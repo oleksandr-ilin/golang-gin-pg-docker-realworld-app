@@ -15,7 +15,7 @@ var DB *gorm.DB
 
 // Opening a database and save the reference to `Database` struct.
 func Init() *gorm.DB {
-	dsn := "user=real-world-app password=123456 dbname=go-real-world-app-db port=5432 sslmode=disable"
+	dsn := "user=real-world-app password=123456 dbname=go-real-world-app-db host=pg-host port=5432 sslmode=disable"
 	db, err := gorm.Open("postgres", dsn)
 	if err != nil {
 		fmt.Println("db err: ", err)
